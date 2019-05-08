@@ -1,0 +1,26 @@
+- hosts: Wordpress
+  vars_files:
+    - host_vars/nectar.yaml
+  gather_facts: true
+
+  pre_tasks:
+    - name: 'Set path'
+      raw: export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+
+    - name: 'Set http_proxy'
+      raw: export http_proxy="http://wwwproxy.unimelb.edu.au:8000"
+
+    - name: 'Set https_proxy'
+      raw: export https_proxy="http://wwwproxy.unimelb.edu.au:8000"
+
+    - name: 'Set ftp_proxy'
+      raw: export ftp_proxy="http://wwwproxy.unimelb.edu.au:8000"
+
+    - name: 'Set no_proxy'
+      raw: export no_proxy=localhost,127.0.0.1,127.0.1.1,ubuntu
+  
+  roles:
+    - role: common
+    - role: volume
+    - role: docker
+    - role: wordpress
