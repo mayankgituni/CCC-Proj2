@@ -1,0 +1,51 @@
+# install dependencies on the host
+
+- name: Update pip
+  become: yes
+  pip:
+    name: ['pip']
+    state: latest
+
+# pip3 install --upgrade pip3
+
+- name: Install openstacksdk
+  become: yes
+  pip:
+    name: ['openstacksdk']
+    state: latest
+
+# pip install openstacksdk
+
+- name: Install pip
+  become: yes
+  apt:
+    name: ['python-pip']
+    state: latest
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install vim
+  become: yes
+  apt:
+    name: ['vim']
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install virtualenv
+  become: yes
+  apt:
+    name: ['virtualenv']
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+# sudo apt-get update; sudo apt-get install virtualenv
+
+- name: Install flask
+  become: yes
+  pip:
+    name: ['flask']
+    state: latest
+
+# pip install flask
+
+
