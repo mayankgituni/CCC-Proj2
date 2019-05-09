@@ -1,6 +1,6 @@
 # create instance on NecTAR
 
-- name: create an instance web server
+- name: create an instance server
   os_server:
     name: '{{ instance_name }}'
     image: '{{ instance_image }}'

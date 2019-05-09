@@ -1,4 +1,5 @@
 # Create volumes from vars
+
 - name: Create Volume snapshots
   os_volume_snapshot:
     state: present
