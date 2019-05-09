@@ -1,10 +1,6 @@
 # show all available Openstack images
 
-# - name: Set docker proxies
-#   tags: 'docker'
-#   become: yes
-#   environment:
-
+---
 - name: Uninstall old docker
   tags: 'docker'
   become: yes

@@ -1,0 +1,27 @@
+- hosts: AllHost
+
+  environment:
+    https_proxy: http://wwwproxy.unimelb.edu.au:8000
+    http_proxy: http://wwwproxy.unimelb.edu.au:8000
+    ftp_proxy: http://wwwproxy.unimelb.edu.au:8000
+    no_proxy: localhost,127.0.0.1,127.0.1.1,172.17.0.2,172.17.0.3,172.17.0.4,ubuntu
+
+  tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        name: ['apt']
+        state: latest
+
+    - name: install vim
+      become: yes
+      apt:
+        name: ['vim']
+        state: latest
+
+    - name: install python3-pip
+      become: yes
+      apt:
+        name: ['python3-pip']
+        state: latest
+   
