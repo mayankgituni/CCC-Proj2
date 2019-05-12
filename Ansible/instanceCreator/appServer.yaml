@@ -8,5 +8,6 @@
     - role: openstack-volume
     - role: openstack-security-group
     - role: openstack-instance
-    - role: openstack-common
     - role: openstack-volume-snapshot
+    - role: openstack-common
+    # - role: openstack-mount-volume

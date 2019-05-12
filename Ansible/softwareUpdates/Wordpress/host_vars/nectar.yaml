@@ -1,7 +1,7 @@
 volumes:
-  - devices: /dev/vdb
+  - device: /dev/vdb
     moutpoint: /var/lib/docker
-  - device: /dev/vdv
+  - device: /dev/vdb
     mountpoint: /data
 
 wp_dir: wordpress

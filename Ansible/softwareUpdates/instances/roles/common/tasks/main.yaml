@@ -4,20 +4,13 @@
   setup:
     gather_subset: all
 
-- name: Install dependencies
-  tags: always
+- name: Install general purpose tools ['curl', 'git', 'vim', 'net-tools']
   become: yes
   apt:
-    name: ['apt-transport-https', 'build-essential', 'ca-certificates', 'curl', 'virtualenv' ,'git', 'python-pip','vim', 'python-setuptools']
+    name: ['software-properties-common', 'apt-transport-https', 'curl', 'git', 'vim', 'net-tools']
     state: latest
     install_recommends: no
     update_cache: yes
-
-- name: Update pip
-  become: yes
-  pip:
-    name: ['pip']
-    state: latest
 
 - name: Install pip3
   become: yes
@@ -25,8 +18,22 @@
     name: ['python3-pip']
     state: latest
 
-- name: Install flask and flask_auth
+- name: Update pip
   become: yes
   pip:
-    name: ['flask', 'flask_httpauth']
+    name: ['pip']
+    executable: pip3
+    state: latest
+
+- name: Installing ['numpy','bs4']
+  become: yes
+  pip:
+    name: ['numpy','bs4']
+    executable: pip3
+    state: latest
+
+- name: Install ['net-tools']
+  become: yes
+  apt:
+    name: ['python-mpi4py']
     state: latest

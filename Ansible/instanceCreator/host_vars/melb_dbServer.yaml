@@ -3,8 +3,8 @@ availability_zone: melbourne-qh2-uom
 
 #volume
 volumes:
-  - vol_name: app-volume
-    vol_size: 35
+  - vol_name: melb-db-volume
+    vol_size: 40
 
 # Security groups
 security_groups:
@@ -22,11 +22,11 @@ security_groups:
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
 
-  - name: set_flask
-    description: "Adding SSH access to web Server"
+  - name: set_couch
+    description: "Opening the port for couch"
     protocol: tcp
-    port_range_min: 5000
-    port_range_max: 5000
+    port_range_min: 5984
+    port_range_max: 5987
     remote_ip_prefix: 0.0.0.0/0
 
   - name: set_application_ports
@@ -37,8 +37,8 @@ security_groups:
     remote_ip_prefix: 0.0.0.0/0
 
 #instance
-instance_name: app_server
-instance_image: 703d4362-dea8-425b-8654-313d50d40e03 
+instance_name: db_server
+instance_image: cb6d0a36-37f4-47c4-8a82-e201bf667211
 instance_key_name: webServer
 instance_flavor: uom.mse.2c9g
 

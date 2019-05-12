@@ -8,7 +8,7 @@
   tags: always
   become: yes
   apt:
-    name: ['pt-transport-https', 'build-essential', 'ca-certificates', 'curl', 'git', 'python-pip','vim', 'python-setuptools']
+    name: ['pt-transport-https', 'build-essential', 'ca-certificates', 'wget','curl', 'git', 'python-pip','vim', 'python-setuptools']
     state: latest
     install_recommends: no
     update_cache: yes

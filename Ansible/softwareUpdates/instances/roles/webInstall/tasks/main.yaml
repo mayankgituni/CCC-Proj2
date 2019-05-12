@@ -1,0 +1,18 @@
+# install dependencies on the host
+---
+- name: Gathering facts
+  setup:
+    gather_subset: all
+
+# - name: Installing []
+#   become: yes
+#   pip:
+#     # name: ['something']
+#     executable: pip3
+#     state: latest
+
+# - name: Install []
+#   become: yes
+#   apt:
+#     # name: ['something']
+#     state: latest

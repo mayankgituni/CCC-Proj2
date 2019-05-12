@@ -3,8 +3,8 @@ availability_zone: melbourne-qh2-uom
 
 #volume
 volumes:
-  - vol_name: db-volume
-    vol_size: 90
+  - vol_name: syd-db-volume
+    vol_size: 40
 
 # Security groups
 security_groups:
@@ -37,7 +37,7 @@ security_groups:
     remote_ip_prefix: 0.0.0.0/0
 
 #instance
-instance_name: db_server
+instance_name: syd_db_server
 instance_image: cb6d0a36-37f4-47c4-8a82-e201bf667211
 instance_key_name: webServer
 instance_flavor: uom.mse.2c9g

@@ -1,0 +1,26 @@
+# install dependencies on the host
+---
+- name: Gathering facts
+  setup:
+    gather_subset: all
+
+- name: Install dependencies
+  become: yes
+  apt:
+    name: ['virtualenv']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Installing ['flask', 'flask_httpauth','numpy','bs4','CouchDB']
+  become: yes
+  pip:
+    name: ['flask', 'flask_httpauth', 'flask_restful','bs4','CouchDB', 'Shapely']
+    executable: pip3
+    state: latest
+
+- name: Install ['python-mpi4py']
+  become: yes
+  apt:
+    name: ['python-mpi4py']
+    state: latest

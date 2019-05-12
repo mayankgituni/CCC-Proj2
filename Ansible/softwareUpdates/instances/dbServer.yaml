@@ -9,3 +9,5 @@
 
   roles:
     - role: common
+    - role: dbInstall
+    - role: docker

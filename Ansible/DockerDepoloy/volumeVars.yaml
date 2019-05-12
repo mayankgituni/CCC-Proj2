@@ -1,0 +1,3 @@
+volumes:
+  - device: /dev/vdb
+    mountpoint: /mystore
