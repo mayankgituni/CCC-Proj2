@@ -1,0 +1,54 @@
+# show all available Openstack images
+---
+- name: Uninstall old docker
+  tags: 'docker'
+  become: yes
+  apt:
+    name: ['docker', 'docker-engine', 'docker.io']
+    state: absent
+
+- name: Set docker environment
+  tags: 'docker'
+  become: yes
+  lineinfile:
+    path: /etc/systemd/system/docker.service.d/http-proxy.conf
+    line: "[Service]\nEnvironment=http_proxy=http://wwwproxy.unimelb.edu.au:8000\nEnvironment=http_proxys=https://http://wwwproxy.unimelb.edu.au:8000"
+    state: present
+    create: yes
+
+- name: Install dependecies for docker
+  tags: 'docker'
+  become: yes
+  apt:
+    name: ['ca-certificates', 'curl', 'python-setuptools']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Add docker apt repository key
+  tags: 'docker'
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add docker apt repo and update apt cache
+  raw: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"; sudo apt-get update
+
+- name: Install docker
+  tags: 'docker'
+  become: yes
+  apt:
+    name: ['docker-ce']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Install docker-compose
+  tags: 'docker'
+  become: yes
+  pip:
+    name: ['docker-compose']
+    version: 1.22.0
+    executable: pip3
+    state: present

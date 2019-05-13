@@ -1,0 +1,24 @@
+---
+- name: Gathering facts
+  setup:
+    gather_subset: all
+- name: Install general purpose tools ['curl', 'git', 'vim', 'net-tools']
+  become: yes
+  apt:
+    name: ['software-properties-common', 'apt-transport-https', 'curl', 'git', 'vim', 'net-tools']
+    state: latest
+    install_recommends: no
+    update_cache: yes
+
+- name: Install pip3
+  become: yes
+  apt:
+    name: ['python3-pip']
+    state: latest
+
+- name: Update pip
+  become: yes
+  pip:
+    name: ['pip']
+    executable: pip3
+    state: latest

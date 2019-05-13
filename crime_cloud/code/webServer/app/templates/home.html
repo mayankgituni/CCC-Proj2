@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head><title>HOME</title></head>
+  <body>
+    {% for task in tasks %}
+      <h1>{{task.title}}</h1>
+      <p>
+        By: {{task.name}}
+      </p>
+    {% endfor %}
+  </body>
+</html>
