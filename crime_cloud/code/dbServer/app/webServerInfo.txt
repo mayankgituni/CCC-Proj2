@@ -1,3 +1,2 @@
 <InstanceName,VolumeName,Size,IPAddr>
-webServer2,webVol2,20,172.26.38.125
-evelyn,evelyn_volume,5,172.26.37.33
+

@@ -5,7 +5,7 @@ import subprocess
 import re
 
 def createInstance(fileName):
-    name = input("Enter web_server name: ")
+    name = input("Enter server name: ")
     volume = input("Enter the volume name: ")
     size = input("Enter the volume size in GB: ")
     print("Enter the password: Hint- ZjdkNDcxNDE4ODEzM2Ji")
@@ -68,15 +68,15 @@ def main():
             
             f1 = open("dbServerInfo.txt", "r")
             f2 = open("webServerInfo.txt", "r")
-            print("*******--CLUSTER INFORMATION---**********")
-            print("***********--DB-SERVERS--****************")
+            print("*******--CLUSTER INFORMATION---*****************")
+            print("***********--DB-SERVERS--***********************")
             for line in f1.readlines():
-                print(line.strip())
+                print(' | '.join(line.strip().split(',')))
             
-            print("\n*********--WEB-SERVERS--****************")
+            print("\n***********--WEB-SERVERS--**********************")
             for line in f2.readlines():
-                print(line.strip())
-            print("*****************************************\n")
+                print(' | '.join(line.strip().split(',')))
+            print("\n************************************************\n")
             f1.close()
             f2.close()
             
