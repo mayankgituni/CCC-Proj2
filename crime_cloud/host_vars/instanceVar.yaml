@@ -28,7 +28,7 @@ security_groups:
 instance_image: 703d4362-dea8-425b-8654-313d50d40e03 
 instance_key_name: webServer
 instance_flavor: uom.mse.2c9g
-instance_name: asddd
+instance_name: evelyn
 volumes:
-  - vol_name: qqw
-    vol_size: 12
+  - vol_name: evelyn_volume
+    vol_size: 5

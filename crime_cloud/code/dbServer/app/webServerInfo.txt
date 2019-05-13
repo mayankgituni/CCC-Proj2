@@ -1,3 +1,3 @@
 <InstanceName,VolumeName,Size,IPAddr>
-mayankServer,vol,12,172.26.223.43
-dan,vol,23,123.443.66.3
+webServer2,webVol2,20,172.26.38.125
+evelyn,evelyn_volume,5,172.26.37.33

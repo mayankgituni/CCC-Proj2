@@ -13,4 +13,5 @@ COPY ./app /app
 
 EXPOSE 50000 50001
 
+# CMD ["python3", "flaskBlog.py"]
 CMD [ "bash", "setup.sh" ]

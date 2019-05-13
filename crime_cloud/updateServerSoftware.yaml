@@ -1,8 +1,7 @@
 - hosts: SoftwareUpdate
   
-  - hosts: uploadContainer
-    vars_files:
-      - volumeVars.yaml
+  vars_files:
+    - volumeVars.yaml
   gather_facts: true
 
   environment:

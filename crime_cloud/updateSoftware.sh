@@ -21,57 +21,40 @@ else
     fi
 fi
 
-echo "$1 is $IP with type $fileType"
-if [[ $fileType == 0 ]]; then
-    echo "Building.."
-    sudo docker build -t mayanktomar/webServer:$2 ./code/webServer
-
-    echo "Login:"
-    sudo docker login 
-
-    echo "Pushing..."
-    sudo docker push mayanktomar/webServer:$2
-
-    echo "[SoftwareUpdate]" > hosts
-    echo $IP >> hosts
-
-    echo "Ansible running..."
-    . ./openrc.sh; ansible-playbook -i hosts -u ubuntu --key-file=webServer.pem --ask-become-pass runContainer.yaml
-
-
-    echo "Docker pulling image...."
-    ssh -i webServer.pem ubuntu@$IP "sudo docker pull mayanktomar/webServer:$2"
-
-    scp -i webServer.pem -r ./code/webServer/app/* ubuntu@$IP:/mystore
-
-    echo "Docker running...."
-    ssh -i webServer.pem ubuntu@$1 "sudo docker run --rm -v /mystore:/app -w /app -p 50000-50001:50000-50001 -d mayanktomar/webServer:$2"
-else
-    echo "Building.."
-    sudo docker build -t mayanktomar/dbServer:$2 ./code/dbServer/
-
-    echo "Login:"
-    sudo docker login 
-
-    echo "Pushing..."
-    sudo docker push mayanktomar/dbServer:$2
-
-    echo "[SoftwareUpdate]" > hosts
-    echo $IP >> hosts
-
-    echo "Ansible running..."
-    . ./openrc.sh; ansible-playbook -i hosts -u ubuntu --key-file=webServer.pem --ask-become-pass runContainer.yaml
-
-
-    echo "Docker pulling image...."
-    ssh -i webServer.pem ubuntu@$IP "sudo docker pull mayanktomar/dbServer:$2"
-
-    scp -i webServer.pem -r ./code/dbServer/app/* ubuntu@$IP:/mystore
-
-    echo "Docker running...."
-    ssh -i webServer.pem ubuntu@$1 "sudo docker run --rm -v /mystore:/app -w /app -p 50000-50001:50000-50001 -d mayanktomar/dbServer:$2"
-
-fi
-
 cp webServerInfo.txt code/dbServer/app/
 cp dbServerInfo.txt code/webServer/app/
+
+echo "$1 is $IP with type $fileType"
+echo "Building.."
+
+if [[ $fileType == 0 ]]; then
+    sudo docker build -t $2 ./code/webServer/
+else
+    sudo docker build -t $2 ./code/dbServer/
+fi
+
+echo "Login:"
+sudo docker login 
+
+echo "Pushing..."
+sudo docker push $2
+
+echo "[SoftwareUpdate]" > hosts
+echo $IP >> hosts
+
+echo "Ansible running... Hint key[ ZjdkNDcxNDE4ODEzM2Ji ] "
+. ./openrc.sh
+ansible-playbook -i hosts -u ubuntu --key-file=webServer.pem --ask-become-pass updateServerSoftware.yaml
+
+echo "Loading the software on the /mystore"
+ssh -i webServer.pem ubuntu@$IP "sudo chmod ugo+rwx /mystore"
+scp -i webServer.pem -r ./code/webServer/app/* ubuntu@$IP:/mystore
+
+echo "Docker pulling image...."
+ssh -i webServer.pem ubuntu@$IP "sudo docker pull $2"
+
+echo "Stopping all the containers...."
+ssh -i webServer.pem ubuntu@$IP "sudo docker kill $(sudo docker ps -q)"
+
+echo "Docker running...."
+ssh -i webServer.pem ubuntu@$IP "sudo docker run --rm -v /mystore:/app -w /app -p 50000-50001:50000-50001 -d $2"
