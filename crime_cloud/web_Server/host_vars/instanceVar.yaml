@@ -1,0 +1,44 @@
+#common vars
+availability_zone: melbourne-qh2-uom
+
+#volume
+volumes:
+  - vol_name: app-volume
+    vol_size: 35
+
+# Security groups
+security_groups:
+  - name: set_ssh
+    description: "Adding SSH access to web Server"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+
+  - name: set_http
+    description: "Adding HTTP access to web Server"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+
+  - name: set_flask
+    description: "Adding SSH access to web Server"
+    protocol: tcp
+    port_range_min: 5000
+    port_range_max: 5000
+    remote_ip_prefix: 0.0.0.0/0
+
+  - name: set_application_ports
+    description: "Opening "
+    protocol: tcp
+    port_range_min: 50000
+    port_range_max: 50010
+    remote_ip_prefix: 0.0.0.0/0
+
+#instance
+instance_name: app_server
+instance_image: 703d4362-dea8-425b-8654-313d50d40e03 
+instance_key_name: webServer
+instance_flavor: uom.mse.2c9g
+instance_name: mayank
