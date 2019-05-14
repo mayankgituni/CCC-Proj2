@@ -20,7 +20,10 @@ def createInstance(fileName):
     fo = open("output.txt", "r")
     output = fo.readlines()
     
-    ipAddr = re.findall(r'\b(?:[0-9]{2,3}\.){3}[0-9]{1,3}\b', output[-1])[0]
+    try:
+        ipAddr = re.findall(r'\b(?:[0-9]{2,3}\.){3}[0-9]{1,3}\b', output[-1])[0]
+    except:
+        return
     
     out = "%s,%s,%s,%s\n"%(name.strip(), volume.strip(), size.strip(), ipAddr)
     print ("The instace %s is up with an IP: %s" % (name.strip(), ipAddr))

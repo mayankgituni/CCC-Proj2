@@ -7,7 +7,7 @@ from flask import render_template
 
 # start the web service.
 template_dir = os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-template_dir = os.path.join(template_dir, 'CCC-Project')
+template_dir = os.path.join(template_dir, 'app')
 template_dir = os.path.join(template_dir, 'frontend')
 template_dir = os.path.join(template_dir, 'build')
 
