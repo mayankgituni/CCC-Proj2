@@ -8,6 +8,10 @@ def createInstance(fileName):
     name = input("Enter server name: ")
     volume = input("Enter the volume name: ")
     size = input("Enter the volume size in GB: ")
+    
+    if(fileName == "dbServerInfo.txt"):
+        box = input("Enter the Bounding Box: ")
+
     print("Enter the password: Hint- ZjdkNDcxNDE4ODEzM2Ji")
     cmd = "ip=$(bash createWebInstance.sh %s %s %s);echo $ip > output.txt" % (name.strip(), volume.strip(), size.strip())
     
@@ -21,6 +25,13 @@ def createInstance(fileName):
     out = "%s,%s,%s,%s\n"%(name.strip(), volume.strip(), size.strip(), ipAddr)
     print ("The instace %s is up with an IP: %s" % (name.strip(), ipAddr))
     f= open(fileName,"a")
+
+    if(fileName == "dbServerInfo.txt"):
+        f2 = open(name+".setup","w")
+        f2.write(box)
+        os.system("mv "+name+".setup "+ "./code/dbServer/app")
+        f2.close()
+
     f.write(out)
     f.close()
 

@@ -1,7 +1,6 @@
 from dbManager import DbOperation
 import json
 
-
 def main(city):
     database = DbOperation('admin','123456','10.12.107.7:5984','melb_tweet')
 

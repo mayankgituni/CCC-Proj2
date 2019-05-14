@@ -1,3 +1,3 @@
 <InstanceName,VolumeName,Size,IPAddr>
-db_server,db_volume,50,172.26.38.66
-
+melbourne_db,melb_vol,30,172.26.37.209
+sydney_db,syd_vol,35,172.26.38.112
