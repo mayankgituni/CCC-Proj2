@@ -13,5 +13,5 @@ COPY ./app /app
 
 EXPOSE 50000 50001
 
-CMD ["python3", "generate_geofile.py"]
-# CMD [ "bash", "setup.sh" ]
+# CMD [ "python3", "main.py"]
+CMD [ "bash", "setup.sh"]

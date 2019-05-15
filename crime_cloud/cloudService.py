@@ -16,10 +16,10 @@ def createInstance(fileName):
     cmd = "ip=$(bash createWebInstance.sh %s %s %s);echo $ip > output.txt" % (name.strip(), volume.strip(), size.strip())
     
     os.system(cmd)
-    
+    # 152.6859,-27.6633,153.4685,-27.0220
     fo = open("output.txt", "r")
     output = fo.readlines()
-    
+
     try:
         ipAddr = re.findall(r'\b(?:[0-9]{2,3}\.){3}[0-9]{1,3}\b', output[-1])[0]
     except:
@@ -30,9 +30,9 @@ def createInstance(fileName):
     f= open(fileName,"a")
 
     if(fileName == "dbServerInfo.txt"):
-        f2 = open(name+".setup","w")
-        f2.write(box)
-        os.system("mv "+name+".setup "+ "./code/dbServer/app")
+        f2 = open("setup.txt","w")
+        f2.write("{\"" + name.strip().split('_')[0] + "\":[" + box+"]}")
+        os.system("scp -i webServer.pem setup.txt ubuntu@%s:~/" % ipAddr)
         f2.close()
 
     f.write(out)

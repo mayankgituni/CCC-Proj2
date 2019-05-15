@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# read -p "Enter the Instance name: "  instName
-# read -p "Enter the Volume name: "  volume
-# read -p "Enter the Volume size: "  volumeSize
-# echo "Printing...."
 echo "Creating $1 mounted with $2($3 GB)"
 
 cat ./host_vars/dummyVar.yaml > ./host_vars/instanceVar.yaml

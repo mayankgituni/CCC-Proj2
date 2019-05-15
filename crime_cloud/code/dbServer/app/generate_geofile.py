@@ -1,20 +1,22 @@
+#!/usr/bin/env python3
+
 from dbManager import DbOperation
 import json
 
+
 def main(city):
-    database = DbOperation('admin','123456','10.12.107.7:5984','melb_tweet')
+    database = DbOperation('admin','123456','localhost:50000','melbourne_tweet')
 
     result1 = database.resultConverter('group_tweet', 3)  #keywords
     result2 = database.resultConverter('negative&withoutKeywords', 3)  #I
     result3 = database.resultConverter('negative&withKeywords', 3)    #IE
     result4 = database.resultConverter('positive&withKeywords', 3)    #E
+    result5 = database.hashtage_rank()  #hashtage
 
     if city == 'Melbourne':
         f_path = 'aurin_melb.geojson'
     elif city == 'Sydney':
         f_path = 'aurin_sydn.geojson'
-    elif city == 'Brisbane':
-        f_path = 'aurin_bris.geojson'
 
     f = open(f_path, 'r', encoding="utf-8")
     data = json.loads((f.read()))
@@ -33,21 +35,23 @@ def main(city):
             feature['properties'].update({'I': 0})
 
         if lga_code in result3:
-            feature['properties'].update(result2[lga_code])
+            feature['properties'].update(result3[lga_code])
         else:
             feature['properties'].update({'IE': 0})
+        
+
         if lga_code in result4:
             feature['properties'].update(result4[lga_code])
         else:
             feature['properties'].update({'E': 0})
 
-
-    data['features'] = features
-    features = data['features']
-    for feature in features:
+        if lga_code in result5:
+            feature['properties'].update({'Hashtag':result5[lga_code]})
+        else:
+            feature['properties'].update({'Hashtag': ''})
         print(feature['properties'])
-    return features
 
-if __name__ == "__main__":
-    f = open("data.json", "w")
-    f.write(main())
+    
+    data['features'] = features
+
+    return data

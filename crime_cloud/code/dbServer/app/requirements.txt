@@ -1,1 +1,7 @@
 CouchDB
+flask
+pybloom_live
+tweepy
+textblob
+shapely
+flask_cors
