@@ -1,4 +1,3 @@
 <InstanceName,VolumeName,Size,IPAddr>
 melbourne_db,melb_vol,30,172.26.37.240
 sydney_db,syd_vol,30,172.26.38.161
-perth_db,perth_vol,10,172.26.37.208
