@@ -27,7 +27,7 @@ const structure = [
   // { id: 1, label: 'Typography', link: '/app/typography', icon: <TypographyIcon /> },
   { id: 1, label: 'Maps', link: '/app/maps', icon: <MapIcon /> },
   // { id: 2, label: 'Tables', link: '/app/tables', icon: <TableIcon /> },
-  { id: 2, label: 'Charts', link: '/app/ui/charts', icon: <ChartIcon />},
+  // { id: 2, label: 'Charts', link: '/app/ui/charts', icon: <ChartIcon />},
   // { id: 3, label: 'Notifications', link: '/app/notifications', icon: <NotificationsIcon />},
   {
     id: 4,

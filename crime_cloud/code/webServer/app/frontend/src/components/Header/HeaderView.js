@@ -116,7 +116,7 @@ const Header = ({ classes, isSidebarOpened, toggleSidebar, ...props }) => (
         <img width={38} src={react} alt="react" />
 
       </IconButton>
-      <Typography variant="h6" weight="medium" className={classes.logotype}> COMP90024 Team 59 </Typography>
+      <Typography variant="h6" weight="medium" className={classes.logotype}> COMP90024 Team 79 </Typography>
       <div className={classes.grow} />
       <div
         className={classNames(classes.search, {

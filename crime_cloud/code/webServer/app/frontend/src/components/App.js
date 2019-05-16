@@ -18,20 +18,20 @@ const PrivateRoute = ({ component, ...rest }) => {
   );
 };
 
-const PublicRoute = ({ ...rest }) => {
-  return (
-    <Route
-      {...rest} render={props => (
-        <Redirect
-          to={{
-            pathname: '/',
-          }}
-        />
-      ) 
-    }
-    />
-  );
-};
+// const PublicRoute = ({ ...rest }) => {
+//   return (
+//     <Route
+//       {...rest} render={props => (
+//         <Redirect
+//           to={{
+//             pathname: '/',
+//           }}
+//         />
+//       ) 
+//     }
+//     />
+//   );
+// };
 
 const App = () => (
   <MuiThemeProvider theme={theme}>

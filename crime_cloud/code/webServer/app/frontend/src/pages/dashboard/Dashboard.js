@@ -13,6 +13,7 @@ import {
   AreaChart,
   LineChart,
   Line,
+  Tooltip,
   Area,
   PieChart,
   Pie,
@@ -20,6 +21,10 @@ import {
   YAxis,
   XAxis
 } from "recharts";
+
+import Loader from '../maps/loader';
+
+import Axios from 'axios';
 
 import mock from "./mock";
 import Widget from "../../components/Widget";
@@ -29,6 +34,8 @@ import Dot from "../../components/Sidebar/components/Dot";
 
 import Table from "./components/Table/Table";
 import BigStat from "./components/BigStat/BigStat";
+
+import CompChart from "./compositeChart"
 
 const getRandomData = (length, min, max, multiplier = 10, maxDiff = 10) => {
   const array = new Array(length).fill();
@@ -51,11 +58,12 @@ const getRandomData = (length, min, max, multiplier = 10, maxDiff = 10) => {
   });
 };
 
+
 const getMainChartData = () => {
   const resultArray = [];
-  const tablet = getRandomData(31, 3500, 6500, 7500, 1000);
-  const desktop = getRandomData(31, 1500, 7500, 7500, 1500);
-  const mobile = getRandomData(31, 1500, 7500, 7500, 1500);
+  const tablet = getRandomData(35, 3500, 6500, 7500, 1000);
+  const desktop = getRandomData(35, 1500, 7500, 7500, 1500);
+  const mobile = getRandomData(35, 1500, 7500, 7500, 1500);
 
   for (let i = 0; i < tablet.length; i++) {
     resultArray.push({
@@ -67,6 +75,8 @@ const getMainChartData = () => {
 
   return resultArray;
 };
+
+
 
 const mainChartData = getMainChartData();
 
@@ -82,7 +92,7 @@ const Dashboard = ({ classes, theme, ...props }) => {
     <React.Fragment>
       <PageTitle title="Dashboard" button="Latest Reports" />
       <Grid container spacing={32}>
-        <Grid item lg={3} md={4} sm={6} xs={12}>
+        {/* <Grid item lg={3} md={4} sm={6} xs={12}>
           <Widget
             title="Visits Today"
             upperTitle
@@ -134,10 +144,12 @@ const Dashboard = ({ classes, theme, ...props }) => {
               </Grid>
             </Grid>
           </Widget>
-        </Grid>
-        <Grid item lg={3} md={8} sm={6} xs={12}>
+        </Grid> */}
+
+
+        <Grid item sm={6}>
           <Widget
-            title="App Performance"
+            title="Tweet Data Analysis"
             upperTitle
             className={classes.card}
             bodyClass={classes.fullHeightBody}
@@ -149,7 +161,7 @@ const Dashboard = ({ classes, theme, ...props }) => {
                   color="textSecondary"
                   className={classes.legendElementText}
                 >
-                  Integration
+                  Melbourne
                 </Typography>
               </div>
               <div className={classes.legendElement}>
@@ -158,7 +170,7 @@ const Dashboard = ({ classes, theme, ...props }) => {
                   color="textSecondary"
                   className={classes.legendElementText}
                 >
-                  SDK
+                  Sydney
                 </Typography>
               </div>
             </div>
@@ -168,16 +180,24 @@ const Dashboard = ({ classes, theme, ...props }) => {
                 color="textSecondary"
                 className={classes.progressSectionTitle}
               >
-                Integration
+                Melbourne Tweets
               </Typography>
               <LinearProgress
                 variant="determinate"
-                value={30}
+                value={33.75}
                 classes={{ barColorPrimary: classes.progressBar }}
                 className={classes.progress}
               />
             </div>
-            <div>
+            <Grid item>
+                <Typography color="textSecondary">melbourne tweets</Typography>
+                <Typography size="md">1559361</Typography>
+              </Grid>
+              <Grid item>
+                <Typography color="textSecondary">sydney tweets</Typography>
+                <Typography size="md">3060922</Typography>
+            </Grid>
+            {/* <div>
               <Typography
                 size="md"
                 color="textSecondary"
@@ -187,14 +207,14 @@ const Dashboard = ({ classes, theme, ...props }) => {
               </Typography>
               <LinearProgress
                 variant="determinate"
-                value={55}
+                value={30.60922}
                 classes={{ barColorPrimary: classes.progressBar }}
                 className={classes.progress}
               />
-            </div>
+            </div> */}
           </Widget>
         </Grid>
-        <Grid item lg={3} md={8} sm={6} xs={12}>
+        <Grid item xs={6}>
           <Widget
             title="Server Overview"
             upperTitle
@@ -206,9 +226,9 @@ const Dashboard = ({ classes, theme, ...props }) => {
                 color="textSecondary"
                 className={classes.serverOverviewElementText}
               >
-                60% / 37°С / 3.3 Ghz
+               Instance Name: web_server1
               </Typography>
-              <div className={classes.serverOverviewElementChartWrapper}>
+              {/* <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
                   <AreaChart data={getRandomData(10)}>
                     <Area
@@ -221,16 +241,16 @@ const Dashboard = ({ classes, theme, ...props }) => {
                     />
                   </AreaChart>
                 </ResponsiveContainer>
-              </div>
+              </div> */}
             </div>
             <div className={classes.serverOverviewElement}>
               <Typography
                 color="textSecondary"
                 className={classes.serverOverviewElementText}
               >
-                54% / 31°С / 3.3 Ghz
+                Volumn Name: web_vol1
               </Typography>
-              <div className={classes.serverOverviewElementChartWrapper}>
+              {/* <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
                   <AreaChart data={getRandomData(10)}>
                     <Area
@@ -243,16 +263,16 @@ const Dashboard = ({ classes, theme, ...props }) => {
                     />
                   </AreaChart>
                 </ResponsiveContainer>
-              </div>
+              </div> */}
             </div>
             <div className={classes.serverOverviewElement}>
               <Typography
                 color="textSecondary"
                 className={classes.serverOverviewElementText}
               >
-                57% / 21°С / 3.3 Ghz
+                Size: 10g
               </Typography>
-              <div className={classes.serverOverviewElementChartWrapper}>
+              {/* <div className={classes.serverOverviewElementChartWrapper}>
                 <ResponsiveContainer height={50} width="99%">
                   <AreaChart data={getRandomData(10)}>
                     <Area
@@ -265,11 +285,17 @@ const Dashboard = ({ classes, theme, ...props }) => {
                     />
                   </AreaChart>
                 </ResponsiveContainer>
-              </div>
+              </div> */}
             </div>
+            <Typography
+                color="textSecondary"
+                className={classes.serverOverviewElementText}
+              >
+                172.26.38.43
+              </Typography>
           </Widget>
         </Grid>
-        <Grid item lg={3} md={4} sm={6} xs={12}>
+        {/* <Grid item lg={3} md={4} sm={6} xs={12}>
           <Widget title="Revenue Breakdown" upperTitle className={classes.card}>
             <Grid container spacing={16}>
               <Grid item xs={6}>
@@ -308,100 +334,25 @@ const Dashboard = ({ classes, theme, ...props }) => {
               </Grid>
             </Grid>
           </Widget>
-        </Grid>
+        </Grid> */}
+        
         <Grid item xs={12}>
-          <Widget
-            bodyClass={classes.mainChartBody}
-            header={
-              <div className={classes.mainChartHeader}>
-                <Typography variant="headline" color="textSecondary">
-                  Daily Line Chart
-                </Typography>
-                <div className={classes.mainChartHeaderLabels}>
-                  <div className={classes.mainChartHeaderLabel}>
-                    <Dot color="warning" />
-                    <Typography className={classes.mainChartLegentElement}>Tablet</Typography>
-                  </div>
-                  <div className={classes.mainChartHeaderLabel}>
-                    <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>Mobile</Typography>
-                  </div>
-                  <div className={classes.mainChartHeaderLabel}>
-                    <Dot color="primary" />
-                    <Typography className={classes.mainChartLegentElement}>Desktop</Typography>
-                  </div>
-                </div>
-                <Select
-                  value={props.mainChartState}
-                  onChange={e => props.setMainChartState(e.target.value)}
-                  input={
-                    <OutlinedInput
-                      labelWidth={0}
-                      classes={{ notchedOutline: classes.mainChartSelectRoot, input: classes.mainChartSelect }}
-                    />
-                  }
-                  autoWidth
-                >
-                  <MenuItem value="daily">Daily</MenuItem>
-                  <MenuItem value="weekly">Weekly</MenuItem>
-                  <MenuItem value="monthly">Monthly</MenuItem>
-                </Select>
-              </div>
-            }
-          >
-            <ResponsiveContainer width="100%" minWidth={500} height={350}>
-              <ComposedChart
-                margin={{ top: 0, right: -15, left: -15, bottom: 0 }}
-                data={mainChartData}
-              >
-                <YAxis
-                  ticks={[0, 2500, 5000, 7500]}
-                  tick={{ fill: theme.palette.text.hint + '80', fontSize: 14 }}
-                  stroke={theme.palette.text.hint  + '80'}
-                  tickLine={false}
-                />
-                <XAxis
-                  tickFormatter={i => i + 1}
-                  tick={{ fill: theme.palette.text.hint  + '80', fontSize: 14 }}
-                  stroke={theme.palette.text.hint  + '80'}
-                  tickLine={false}
-                />
-                <Area
-                  type="natural"
-                  dataKey="desktop"
-                  fill={theme.palette.background.light}
-                  strokeWidth={0}
-                  activeDot={false}
-                />
-                <Line
-                  type="natural"
-                  dataKey="mobile"
-                  stroke={theme.palette.primary.main}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={false}
-                />
-                <Line
-                  type="linear"
-                  dataKey="tablet"
-                  stroke={theme.palette.warning.main}
-                  strokeWidth={2}
-                  dot={{
-                    stroke: theme.palette.warning.dark,
-                    strokeWidth: 2,
-                    fill: theme.palette.warning.main
-                  }}
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
+          <Widget>
+              <CompChart width="100%" />
           </Widget>
         </Grid>
-        {mock.bigStat.map(stat => (
+
+        {/* <Grid item xs={12}>
+          <Widget>
+              <TagCloud />
+          </Widget>
+        </Grid> */}
+        {/* {mock.bigStat.map(stat => (
           <Grid item md={4} sm={6} xs={12} key={stat.product}>
             <BigStat {...stat} />
           </Grid>
-        ))}
-        <Grid item xs={12}>
+        ))} */}
+        {/* <Grid item xs={12}>
           <Widget
             title="Support Requests"
             upperTitle
@@ -410,7 +361,7 @@ const Dashboard = ({ classes, theme, ...props }) => {
           >
             <Table data={mock.table} />
           </Widget>
-        </Grid>
+        </Grid> */}
       </Grid>
     </React.Fragment>
   );

@@ -64,13 +64,13 @@ def updateSoftware(tagType):
 
     if(tagType == 'web'):
         if(tag.strip() == ''):
-            os.system("bash updateSoftware.sh %s mayanktomar/web-server:default" % (name.strip(), tag.strip()))
+            os.system("bash updateSoftware.sh %s mayanktomar/web-server:default" % (name.strip()))
         else:
             os.system("bash updateSoftware.sh %s mayanktomar/web-server:%s" % (name.strip(), tag.strip()))
     else:
         os.system("grep %s setup.txt > ./code/dbServer/app/setup.json" % name.strip())
         if(tag.strip() == ''):
-            os.system("bash updateSoftware.sh %s mayanktomar/db-server:default" % (name.strip(), tag.strip()))
+            os.system("bash updateSoftware.sh %s mayanktomar/db-server:default" % (name.strip()))
         else:
             os.system("bash updateSoftware.sh %s mayanktomar/db-server:%s" % (name.strip(), tag.strip()))
 

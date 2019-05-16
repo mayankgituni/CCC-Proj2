@@ -1,6 +1,7 @@
-flask
+ flask
 flask_restful
 # Shapely
+couchDB
 numpy
 tweepy
 textblob
