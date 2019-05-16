@@ -1,13 +1,18 @@
 - hosts: localhost
-
+###################################################################
+# File Name	    : createInstance.yaml
+# Description	  : This script is used to create instance using host variables.
+# Args         	: N/A
+# Author       	: mtomar
+###################################################################
   vars_files:
     - ./host_vars/instanceVar.yaml
   gather_facts: true
   
   roles:
-    - role: openstack-common
-    - role: openstack-images
-    - role: openstack-volume
-    - role: openstack-security-group
+    - role: common
+    - role: instance-images
+    - role: create-volume
+    - role: security-group
     - role: openstack-instance
-    - role: openstack-volume-snapshot
+    - role: volume-snapshot

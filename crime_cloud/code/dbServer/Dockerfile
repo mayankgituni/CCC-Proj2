@@ -1,5 +1,13 @@
 FROM python:3.7.3-stretch
 
+###################################################################
+# File Name	    : Dockerfile
+# Description	: This script is used to build docker image for the
+#                   dbServer.
+# Args         	: N/A
+# Author       	: mtomar
+###################################################################
+
 MAINTAINER Web-db
 
 COPY ./app/requirements.txt /app/requirements.txt
@@ -13,5 +21,4 @@ COPY ./app /app
 
 EXPOSE 50000 50001
 
-# CMD [ "python3", "main.py"]
 CMD [ "bash", "setup.sh"]

@@ -1,5 +1,13 @@
 #!/bin/bash
 
+###################################################################
+# File Name	    : createInstance.sh
+# Description	: This script is used to create host variabe dnamically 
+#                  and create instance usuing those variable.
+# Args         	: InstanceName, VolumeName, VolumeSize
+# Author       	: mtomar
+###################################################################
+
 echo "Creating $1 mounted with $2($3 GB)"
 
 cat ./host_vars/dummyVar.yaml > ./host_vars/instanceVar.yaml

@@ -4,6 +4,17 @@ import os
 import subprocess
 import re
 
+###################################################################
+# File Name	    : cloudService.sh
+# Description	: This script manages the cloudService features which
+#                   includes, creating instances ands updating software.
+# Args         	: N/A
+# Author       	: mtomar
+###################################################################
+
+'''
+This method is used to take user input and create instances on the nectar cloud.
+'''
 def createInstance(fileName):
     name = input("Enter server name: ")
     volume = input("Enter the volume name: ")
@@ -12,44 +23,66 @@ def createInstance(fileName):
     if(fileName == "dbServerInfo.txt"):
         box = input("Enter the Bounding Box: ")
 
+    # This password is used to interact with openstack
     print("Enter the password: Hint- ZjdkNDcxNDE4ODEzM2Ji")
-    cmd = "ip=$(bash createWebInstance.sh %s %s %s);echo $ip > output.txt" % (name.strip(), volume.strip(), size.strip())
+    cmd = "ip=$(bash createInstance.sh %s %s %s);echo $ip > output.txt" % (name.strip(), volume.strip(), size.strip())
     
+    # Execute the instance creation script with proper variables.
     os.system(cmd)
-    # 152.6859,-27.6633,153.4685,-27.0220
     fo = open("output.txt", "r")
     output = fo.readlines()
 
     try:
+        # retrive the IP address of the new instance
         ipAddr = re.findall(r'\b(?:[0-9]{2,3}\.){3}[0-9]{1,3}\b', output[-1])[0]
     except:
+        print('No IP address found!!')
         return
     
     out = "%s,%s,%s,%s\n"%(name.strip(), volume.strip(), size.strip(), ipAddr)
-    print ("The instace %s is up with an IP: %s" % (name.strip(), ipAddr))
-    f= open(fileName,"a")
 
+    print ("The instace %s is up with an IP: %s" % (name.strip(), ipAddr))
+    
+    
     if(fileName == "dbServerInfo.txt"):
         f2 = open("setup.txt","w")
         f2.write("{\"" + name.strip().split('_')[0] + "\":[" + box+"]}")
         os.system("scp -i webServer.pem setup.txt ubuntu@%s:~/" % ipAddr)
         f2.close()
 
+    # Reister the instance into cloud info files.
+    f= open(fileName,"a")
     f.write(out)
     f.close()
 
+'''
+This method used to build call script that build docker images, pushes
+and pull on the instace and deploys the images on the volume.
+'''
 def updateSoftware(tagType):
     name = input("Enter name: ")
     tag = input("Enter the tag: ")
-    if(tagType == 'web'):
-        os.system("bash updateSoftware.sh %s mayanktomar/web-server:%s" % (name.strip(), tag.strip()))
-    else:
-        os.system("bash updateSoftware.sh %s mayanktomar/db-server:%s" % (name.strip(), tag.strip()))
 
+    if(tagType == 'web'):
+        if(tag.strip() == ''):
+            os.system("bash updateSoftware.sh %s mayanktomar/web-server:default" % (name.strip(), tag.strip()))
+        else:
+            os.system("bash updateSoftware.sh %s mayanktomar/web-server:%s" % (name.strip(), tag.strip()))
+    else:
+        if(tag.strip() == ''):
+            os.system("bash updateSoftware.sh %s mayanktomar/db-server:default" % (name.strip(), tag.strip()))
+        else:
+            os.system("bash updateSoftware.sh %s mayanktomar/db-server:%s" % (name.strip(), tag.strip()))
+
+'''
+This method is used to provide interative cloud service to the user. The service may
+include features such as creating an instance, updating the software and managing
+cloud information.
+'''
 def main():
     print("*********************************************************************************************")
     print("*********************************************************************************************")
-    print("*****************************--WELCOME TO THE CLOUD---****************************************")
+    print("*****************************--WELCOME TO THE CLOUD---***************************************")
     print("*********************************************************************************************\n")
     
     while(True):
@@ -99,7 +132,6 @@ def main():
             print("\nThank you for using the service! :-)")
             print("--------------------------------------")
             break
-
 
 if __name__ == '__main__':
     main()

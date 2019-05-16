@@ -1,5 +1,14 @@
 FROM python:3-alpine
 
+###################################################################
+# File Name	    : Dockerfile
+# Description	: This script is used to build docker image for the
+#                   webServer. Here alpine is used so that we could
+#                   utilize apk, npm and yarn packages.
+# Args         	: N/A
+# Author       	: mtomar
+###################################################################
+
 MAINTAINER Web-Compose
 
 RUN apk add --update \

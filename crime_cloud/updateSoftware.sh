@@ -1,5 +1,14 @@
 #!/bin/bash
 
+###################################################################
+# File Name	    : updateSoftware.sh
+# Description	: # This script is used to create new builds and 
+#                   deply softwares on the nectar cloud.
+# Args         	: InstanceName, tagName
+# Author       	: mtomar
+###################################################################
+
+# Identifies the IP address and type of the instance that uses has input.
 grep $1 webServerInfo.txt
 if [[ $? == 0 ]]; then
     grep "$1," webServerInfo.txt > out
@@ -21,8 +30,9 @@ else
     fi
 fi
 
-cp webServerInfo.txt code/dbServer/app/
-cp dbServerInfo.txt code/webServer/app/
+# update the information of the cloud which later sent to the instance
+cp webServerInfo.txt dbServerInfo.txt code/dbServer/app/
+cp webServerInfo.txt dbServerInfo.txt code/webServer/app/
 
 echo "$1 is $IP with type $fileType"
 echo "Building.."
@@ -38,10 +48,10 @@ else
     scp -i webServer.pem -r ./code/dbServer/app/* ubuntu@$IP:/mystore
 fi
 
-echo "Login:"
+echo "Docker Login:"
 sudo docker login 
 
-echo "Pushing..."
+echo "Pushing the docker image..."
 sudo docker push $2
 
 echo "[SoftwareUpdate]" > hosts
@@ -51,13 +61,13 @@ echo "Ansible running... Hint key[ ZjdkNDcxNDE4ODEzM2Ji ] "
 . ./openrc.sh
 ansible-playbook -i hosts -u ubuntu --key-file=webServer.pem --ask-become-pass updateServerSoftware.yaml
 
-echo "Docker pulling image...."
+echo "Pulling docker image...."
 ssh -i webServer.pem ubuntu@$IP "sudo docker pull $2"
 
 echo "Stopping all the containers...."
 ssh -i webServer.pem ubuntu@$IP "sudo docker kill $(sudo docker ps -q)"
 
-echo "Docker running...."
+echo "Docker new image deployed...."
 if [[ $fileType == 0 ]]; then
     ssh -i webServer.pem ubuntu@$IP "sudo docker run -p 50002:5984 -v /mystore/data:/opt/couchdb/data -d couchdb:2.3.0 --ip=192.168.0.1"
 fi
