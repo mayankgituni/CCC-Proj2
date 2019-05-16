@@ -43,11 +43,10 @@ def createInstance(fileName):
 
     print ("The instace %s is up with an IP: %s" % (name.strip(), ipAddr))
     
-    
     if(fileName == "dbServerInfo.txt"):
-        f2 = open("setup.txt","w")
+        f2 = open("setup.txt","a")
         f2.write("{\"" + name.strip().split('_')[0] + "\":[" + box+"]}")
-        os.system("scp -i webServer.pem setup.txt ubuntu@%s:~/" % ipAddr)
+        os.system("grep %s setup.txt > ./code/dbServer/app/setup.json" % name.strip())
         f2.close()
 
     # Reister the instance into cloud info files.
@@ -69,6 +68,7 @@ def updateSoftware(tagType):
         else:
             os.system("bash updateSoftware.sh %s mayanktomar/web-server:%s" % (name.strip(), tag.strip()))
     else:
+        os.system("grep %s setup.txt > ./code/dbServer/app/setup.json" % name.strip())
         if(tag.strip() == ''):
             os.system("bash updateSoftware.sh %s mayanktomar/db-server:default" % (name.strip(), tag.strip()))
         else:
